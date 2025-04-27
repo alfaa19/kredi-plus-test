@@ -1,0 +1,26 @@
+# Source control
+.git
+.gitignore
+
+# Local dev config
+.env
+
+# IDE/editor config
+.idea
+.vscode
+
+# Build artifacts
+/app
+/bin
+/build
+
+# Swagger generated docs (not needed inside image)
+docs/docs.go
+docs/swagger.json
+docs/swagger.yaml
+
+# Migration lock file
+migrations/*.lock
+
+# Coverage report
+coverage.out

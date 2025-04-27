@@ -1,0 +1,42 @@
+
+services:
+  db:
+    image: mysql:8
+    container_name: mysql-kredit-plus
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - kreditplus-net
+
+  app:
+    build: .
+    container_name: kredit-plus-app
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    environment:
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - db
+    networks:
+      - kreditplus-net
+
+volumes:
+  db_data:
+
+networks:
+  kreditplus-net:
+    driver: bridge

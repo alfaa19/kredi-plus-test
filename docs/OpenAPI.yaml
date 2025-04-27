@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: Kredit Plus API
+  version: "1.0"
+  description: Backend API Service for Kredit Plus Test
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /limits:
+    post:
+      summary: Create a new limit
+      tags:
+        - Limits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Limit'
+      responses:
+        '201':
+          description: Limit created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /limits/{user_id}:
+    get:
+      summary: Get limits by user ID
+      tags:
+        - Limits
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of user limits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Limit'
+
+  /transactions:
+    post:
+      summary: Create a new transaction
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Insufficient limit or invalid transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /transactions/{user_id}:
+    get:
+      summary: Get all transactions by user ID
+      tags:
+        - Transactions
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of user transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
+  /transactions/id/{id}:
+    get:
+      summary: Get transaction by ID
+      tags:
+        - Transactions
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transaction detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        nik:
+          type: string
+        full_name:
+          type: string
+        legal_name:
+          type: string
+        place_of_birth:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        salary:
+          type: integer
+
+    Limit:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        tenor_months:
+          type: integer
+        limit_amount:
+          type: number
+
+    Transaction:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        tenor_months:
+          type: integer
+        contract_number:
+          type: string
+        otr_amount:
+          type: number
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Bad Request

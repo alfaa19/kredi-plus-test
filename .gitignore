@@ -1,0 +1,28 @@
+# Build binary
+/app
+
+# Go build output
+bin/
+build/
+
+# Env
+.env
+
+# Goose migration output 
+migrations/*.lock
+
+# Swagger generated docs
+docs/docs.go
+docs/swagger.json
+docs/swagger.yaml
+
+# IDE/editor config
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage report
+coverage.out
