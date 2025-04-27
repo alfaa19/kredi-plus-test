@@ -16,7 +16,7 @@ Built with Go (Echo Framework), MySQL, Docker, and Swagger Documentation.
 ---
 
 ## 🛠️ Tech Stack
-- Go 1.22
+- Go 1.24
 - Echo Web Framework
 - MySQL 8
 - Docker & Docker Compose
